@@ -1,14 +1,16 @@
 package mapElements;
-public enum MapDirection {
+public enum MoveDirection {
     NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH, SOUTHWEST,WEST,NORTHWEST;
 
-    public MapDirection next() {
-        return (MapDirection.values()[(this.ordinal()+1)%8]);
+    public MoveDirection next() {
+        return (MoveDirection.values()[(this.ordinal()+1)%8]);
     }
 
-    public MapDirection previous() {
-        return (MapDirection.values()[(this.ordinal()-1)%8]);
+    public MoveDirection previous() {
+        return (MoveDirection.values()[(this.ordinal()-1)%8]);
     }
+
+    public static MoveDirection random(){ return MoveDirection.values()[(int)(Math.floor(Math.random()*(8-0.0000001)))];}
 
     public Vector2d toUnitVector() {
         return switch (this) {

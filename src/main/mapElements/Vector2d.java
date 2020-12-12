@@ -1,4 +1,6 @@
 package mapElements;
+import runAndData.GlobalVariables;
+
 import java.util.*;
 
     public class Vector2d {
@@ -33,7 +35,8 @@ import java.util.*;
         }
 
         public Vector2d add(Vector2d other) {
-            return new Vector2d(this.x + other.x, this.y + other.y);
+            int a = (this.x + other.x)%GlobalVariables.width, b = (this.y + other.y)%GlobalVariables.height;
+            return new Vector2d((a>=0?a:a+GlobalVariables.width)%GlobalVariables.width,(b>=0?b:b+GlobalVariables.height)%GlobalVariables.height);
         }
 
         public Vector2d subtract(Vector2d other) {

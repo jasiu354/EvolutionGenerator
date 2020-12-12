@@ -11,4 +11,9 @@ public class Genotype {
     Genotype pickGeno(Animal dad, Animal mom){
         return new Genotype();
     }
+
+    public void randomGeno(){
+        for(int i = 8; i < 32; i++)
+            this.genes[(int)(Math.floor(Math.random()*(8-0.0000001)))]++;
+    }
 }

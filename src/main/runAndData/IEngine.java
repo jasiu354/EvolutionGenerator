@@ -2,7 +2,7 @@ package runAndData;
 
 public interface IEngine {
     void run();
-    void generateAnimals();
+    void startAnimals();
     void generatePlants();
     void copulation();
     void consummation();

@@ -18,7 +18,7 @@ public abstract class MapElement {
         this.observers.add(observer);
     }
 
-    void unregister(MapObserver observer){
+    public void unregister(MapObserver observer){
         this.observers.remove(observer);
     }
 
@@ -27,6 +27,6 @@ public abstract class MapElement {
     }
 
     void remove(){
-        this.observers.forEach(observer -> observer.remove(this));
+        this.observers.forEach(observer -> observer.remove(this, this.getPosition()));
     }
 }

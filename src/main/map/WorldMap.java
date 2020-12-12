@@ -23,9 +23,14 @@ public class WorldMap extends Jungle implements IMap {
         GlobalVariables.d = this.lL;
     }
 
-    public void remove(MapElement e) {
-        mapElements.remove(e.getPosition());
+    public void remove(MapElement e, Vector2d position) {
+        if(this.mapElements.containsKey(position)) {
+            this.mapElements.get(position).remove(e);
+            if(this.mapElements.get(position).isEmpty())
+                this.mapElements.remove(position);
+        }
     }
+
 
     public void place(MapElement e) {
         if(!this.mapElements.containsKey(e.getPosition())) {
@@ -35,9 +40,14 @@ public class WorldMap extends Jungle implements IMap {
     }
 
     public void positionChanged(Vector2d oldPosition, MapElement e) {
-        this.mapElements.get(oldPosition).remove(e);
-        if(this.mapElements.get(oldPosition).isEmpty())
-            this.mapElements.remove(oldPosition);
+        remove(e,oldPosition);
+//        if(this.mapElements.containsKey(oldPosition)) {
+//            this.mapElements.get(oldPosition).remove(e);
+//            if (this.mapElements.get(oldPosition).isEmpty()) {
+//                this.mapElements.remove(oldPosition);
+//            }
+//        }
+      //  System.out.println(oldPosition);
         place(e);
     }
 

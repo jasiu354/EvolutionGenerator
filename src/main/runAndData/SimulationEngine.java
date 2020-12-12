@@ -19,6 +19,7 @@ public class SimulationEngine implements IEngine {
         for(int i = 0; i < 10 ; i++) {
             moveAnimals();
             generatePlants();
+            removeDeadAnimals();
             System.out.println();
             this.map.display();
         }
@@ -86,7 +87,13 @@ public class SimulationEngine implements IEngine {
     }
 
     public void moveAnimals() {
-       // this.getAnimals().forEach(a -> System.out.println(a.getPosition()));
         getAnimals().forEach(Animal::move);
+    }
+    public void removeDeadAnimals(){
+        getAnimals().forEach(a -> {
+            a.die();
+            if(a.getEnergyLevel() == 0)
+                a.unregister(this.map);
+        });
     }
 }

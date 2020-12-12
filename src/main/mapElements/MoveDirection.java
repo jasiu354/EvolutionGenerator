@@ -1,4 +1,7 @@
 package mapElements;
+
+import java.util.Random;
+
 public enum MoveDirection {
     NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH, SOUTHWEST,WEST,NORTHWEST;
 
@@ -10,7 +13,7 @@ public enum MoveDirection {
         return (MoveDirection.values()[(this.ordinal()-1)%8]);
     }
 
-    public static MoveDirection random(){ return MoveDirection.values()[(int)(Math.floor(Math.random()*(8-0.0000001)))];}
+    public static MoveDirection random(){ return MoveDirection.values()[ new Random().nextInt(8)];}
 
     public Vector2d toUnitVector() {
         return switch (this) {

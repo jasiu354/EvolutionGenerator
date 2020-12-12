@@ -21,6 +21,7 @@ public class Animal extends MapElement{
                 (int)Math.floor(Math.random()*GlobalVariables.height));
         this.geno.randomGeno();
         this.direction = MoveDirection.random();
+        this.energyLevel = GlobalVariables.startEnergy;
     }
 
     public Animal(Animal dad, Animal mom){ //dzieci
@@ -31,16 +32,17 @@ public class Animal extends MapElement{
         this.parents[1] = mom;
         this.id = GlobalVariables.animalCounter++;
         this.position = findPosForChild(dad.getPosition());
+        this.energyLevel = GlobalVariables.startEnergy;
     }
 
-    int getEnergyLevel(){
+    public int getEnergyLevel(){
         return this.energyLevel;
     }
+
     Genotype getGeno(){ return this.geno; }
 
     public void move(){
-        //if(this.energyLevel <= GlobalVariables.moveEnergy) { this.die(); }
-        //this.energyLevel -= GlobalVariables.moveEnergy;
+        this.energyLevel -= GlobalVariables.moveEnergy;
         this.direction = turn();
         Vector2d prev = this.position;
         this.position = this.position.add(this.direction.toUnitVector());
@@ -49,16 +51,19 @@ public class Animal extends MapElement{
     }
 
     MoveDirection turn(){
-        int x = (int)(Math.floor(Math.random()*(33-0.0000001))), i = 0;
+        Random rand = new Random();
+        int x = rand.nextInt(32), i = 0;
         while(x > 0 && i < 7){
             x -= this.geno.genes[i++];
         }
         return MoveDirection.values()[i];
     }
 
-    void die(){
-        this.energyLevel = 0;
-        super.remove();
+    public void die(){
+        if(this.energyLevel <= 0) {
+            this.energyLevel = 0;
+            super.remove();
+        }
     }
 
     boolean canCopulate(){ return this.energyLevel>4; }

@@ -68,6 +68,8 @@ public class WorldMap extends Jungle implements IMap {
                         System.out.print(" a ");
                     else if(this.mapElements.get(new Vector2d(i,j)).stream().allMatch(p -> p instanceof Plant))
                         System.out.print( " p ");
+                    else
+                        System.out.print(" a ");
                 }
                 else{
                     if(lL.precedes( new Vector2d(i,j)) && uR.follows(new Vector2d(i,j))) {

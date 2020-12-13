@@ -26,7 +26,7 @@ public abstract class MapElement {
         this.observers.forEach(observer -> observer.positionChanged(oldPosition,this));
     }
 
-    void remove(){
+    public void remove(){
         this.observers.forEach(observer -> observer.remove(this, this.getPosition()));
     }
 }

@@ -3,6 +3,7 @@ package runAndData;
 import map.WorldMap;
 import mapElements.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SimulationEngine implements IEngine {
 
@@ -16,10 +17,12 @@ public class SimulationEngine implements IEngine {
         startAnimals();
         this.map.display();
         generatePlants();
+        System.out.println(GlobalVariables.d + " " + GlobalVariables.u);
         for(int i = 0; i < 10 ; i++) {
-            moveAnimals();
-            generatePlants();
             removeDeadAnimals();
+            moveAnimals();
+            feedAnimals();
+            generatePlants();
             System.out.println();
             this.map.display();
         }
@@ -82,8 +85,24 @@ public class SimulationEngine implements IEngine {
 
     }
 
-    public void consummation() {
+    public void feedAnimals() {
+        Set<Plant> plants = getPlants();
+        Set<Animal> animals = getAnimals();
+        for(Plant p:plants){
+            Set<Animal> luckyAnimals = animals.stream().
+                    filter(a -> a.getPosition().equals(p.getPosition())).collect(Collectors.toSet());
+            if(!luckyAnimals.isEmpty()){
+                luckyAnimals.forEach(a -> a.increaseEnergyLevel((GlobalVariables.plantEnergy/luckyAnimals.size())));
+                p.remove();
+                p.unregister(this.map);
+            }
+        }
+    }
 
+    public List<Animal> getStrongestAnimals(Set<Animal> animals){
+        int max = animals.stream().map(Animal::getEnergyLevel).
+                max(Integer::compareTo).orElse(0);
+        return animals.stream().filter(a -> a.getEnergyLevel() == max).collect(Collectors.toList());
     }
 
     public void moveAnimals() {

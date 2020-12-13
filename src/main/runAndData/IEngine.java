@@ -5,7 +5,7 @@ public interface IEngine {
     void startAnimals();
     void generatePlants();
     void copulation();
-    void consummation();
+    void feedAnimals();
     void moveAnimals();
 
 }

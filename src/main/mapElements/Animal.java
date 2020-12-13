@@ -39,6 +39,8 @@ public class Animal extends MapElement{
         return this.energyLevel;
     }
 
+    public void increaseEnergyLevel(int energy){ this.energyLevel += energy; }
+
     Genotype getGeno(){ return this.geno; }
 
     public void move(){

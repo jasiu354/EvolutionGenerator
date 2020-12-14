@@ -65,6 +65,14 @@ public class WorldMap extends Jungle implements IMap {
         return this.mapElements;
     }
 
+    public int getHeight() { return this.height; }
+
+    public int getWidth() { return this.width; }
+
+    public boolean inJungle(Vector2d v){
+        return lL.precedes(v) && uR.follows(v);
+    }
+
     public void display() {
         for (int j = this.height; j >= -1; j--) {
             for (int i = -1; i <= this.width; i++) {
@@ -86,7 +94,7 @@ public class WorldMap extends Jungle implements IMap {
                         System.out.print(" a ");
                 }
                 else{
-                    if(lL.precedes( new Vector2d(i,j)) && uR.follows(new Vector2d(i,j))) {
+                    if(inJungle(new Vector2d(i,j))) {
                         System.out.print(" j ");
                     }
                     else
@@ -101,4 +109,41 @@ public class WorldMap extends Jungle implements IMap {
         System.out.println();
     }
 
+    public String buildDisplay() {
+        StringBuilder output = new StringBuilder();
+        for (int j = this.height; j >= -1; j--) {
+            for (int i = -1; i <= this.width; i++) {
+                if ((j == -1 && i == -1) || (j == this.height && i == this.width) || (j == -1 && i == this.width) || (j == this.height && i == -1))
+                    output.append('"');
+                else if (j == -1 || j == this.height)
+                    output.append("_");
+                else if (i == -1 || i == this.width) {
+                    if (i == -1)
+                        output.append(j);
+                    output.append('|');
+                }
+                else if(this.mapElements.containsKey(new Vector2d(i,j))) {
+                    if(this.mapElements.get(new Vector2d(i,j)).stream().allMatch(a -> a instanceof Animal))
+                        output.append("a");
+                    else if(this.mapElements.get(new Vector2d(i,j)).stream().allMatch(p -> p instanceof Plant))
+                        output.append("p");
+                    else
+                        output.append("a");
+                }
+                else{
+                    if(inJungle(new Vector2d(i,j))) {
+                        output.append("j");
+                    }
+                    else
+                        output.append(" ");
+                }
+            }
+            output.append('\n');
+        }
+        output.append(" ");
+        for(int i = 0; i < GlobalVariables.width; i++)
+            output.append(i);
+        output.append('\n');
+        return output.toString();
+    }
 }

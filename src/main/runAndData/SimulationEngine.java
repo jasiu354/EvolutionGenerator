@@ -8,25 +8,23 @@ import java.util.stream.Collectors;
 public class SimulationEngine implements IEngine {
 
     WorldMap map;
+    boolean simulationStatus = true;
+    long interval = 1000;
 
     public SimulationEngine() {
         this.map = new WorldMap();
+        startAnimals();
+        generatePlants();
+        System.out.println(this.map.buildDisplay());
     }
 
     public void run() {
-        startAnimals();
-        this.map.display();
+        removeDeadAnimals();
+        moveAnimals();
+        feedAnimals();
+        copulation();
         generatePlants();
-        System.out.println(GlobalVariables.d + " " + GlobalVariables.u);
-        for (int i = 0; i < 10; i++) {
-            removeDeadAnimals();
-            moveAnimals();
-            feedAnimals();
-            copulation();
-            generatePlants();
-            System.out.println();
-            this.map.display();
-        }
+        System.out.println(this.map.buildDisplay());
     }
 
     public void startAnimals() {
@@ -145,4 +143,10 @@ public class SimulationEngine implements IEngine {
                 a.unregister(this.map);
         });
     }
+
+    public long getInterval() { return this.interval; }
+
+    public boolean getSimulationStatus() {return this.simulationStatus;}
+
+    public WorldMap getMap() { return this.map; }
 }

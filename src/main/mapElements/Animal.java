@@ -1,8 +1,8 @@
 package mapElements;
 
+import runAndData.GlobalVariables;
+
 import java.util.*;
-import runAndData.*;
-import static map.WorldMap.findPosForChild;
 
 public class Animal extends MapElement{
     Genotype geno;
@@ -24,15 +24,15 @@ public class Animal extends MapElement{
         this.energyLevel = GlobalVariables.startEnergy;
     }
 
-    public Animal(Animal dad, Animal mom){ //dzieci
+    public Animal(Animal dad, Animal mom, Vector2d childPos){ //dzieci
         this.geno = new Genotype();
-        this.geno.pickGeno(dad,mom);
+        this.geno = this.geno.pickGeno(dad,mom);
         this.parents = new Animal[2];
         this.parents[0] = dad;
         this.parents[1] = mom;
         this.id = GlobalVariables.animalCounter++;
-        this.position = findPosForChild(dad.getPosition());
-        this.energyLevel = GlobalVariables.startEnergy;
+        this.position = childPos;
+        this.energyLevel = dad.getEnergyLevel()/4 + mom.getEnergyLevel()/4;
     }
 
     public int getEnergyLevel(){
@@ -68,15 +68,6 @@ public class Animal extends MapElement{
         }
     }
 
-    boolean canCopulate(){ return this.energyLevel>4; }
-
-
-    void copulate(){
-
-    }
-
-    void consume(){
-
-    }
+    public boolean canCopulate(){ return this.energyLevel> 0.5*GlobalVariables.startEnergy; }
 
 }

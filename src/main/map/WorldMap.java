@@ -41,21 +41,25 @@ public class WorldMap extends Jungle implements IMap {
 
     public void positionChanged(Vector2d oldPosition, MapElement e) {
         remove(e,oldPosition);
-//        if(this.mapElements.containsKey(oldPosition)) {
-//            this.mapElements.get(oldPosition).remove(e);
-//            if (this.mapElements.get(oldPosition).isEmpty()) {
-//                this.mapElements.remove(oldPosition);
-//            }
-//        }
-      //  System.out.println(oldPosition);
         place(e);
     }
 
-    public void occupied(Vector2d v) {
-
+    public boolean occupied(Vector2d v) {
+        return this.mapElements.containsKey(v);
     }
 
-    public static Vector2d findPosForChild(Vector2d v){ return v; }
+    public Vector2d findPosForChild(Vector2d v){
+        Random rand = new Random();
+        int x = rand.nextInt(8);
+        if(occupied(v.add(MoveDirection.values()[x].toUnitVector()))){
+            for(int i = 0; i < 8; i++){
+                if(!occupied(v.add(MoveDirection.values()[i].toUnitVector()))) {
+                    return v.add(MoveDirection.values()[i].toUnitVector());
+                }
+            }
+        }
+        return v.add(MoveDirection.values()[x].toUnitVector());
+    }
 
     public Map<Vector2d,Set<MapElement>> getElements(){
         return this.mapElements;

@@ -1,4 +1,7 @@
-package runAndData;
+package displaying;
+
+import runAndData.GlobalVariables;
+import runAndData.SimulationEngine;
 
 public class Main {
 

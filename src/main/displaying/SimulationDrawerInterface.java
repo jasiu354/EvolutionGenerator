@@ -3,5 +3,5 @@ package displaying;
 public interface SimulationDrawerInterface {
     void drawMap();
     void updateSimulation();
-    void pauseSimulation();
+    void pauseSimulation() throws InterruptedException;
 }

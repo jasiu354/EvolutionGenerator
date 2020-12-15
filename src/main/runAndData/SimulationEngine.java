@@ -9,13 +9,13 @@ public class SimulationEngine implements IEngine {
 
     WorldMap map;
     boolean simulationStatus = true;
-    long interval = 1000;
+    long interval = 400;
 
     public SimulationEngine() {
         this.map = new WorldMap();
         startAnimals();
         generatePlants();
-        System.out.println(this.map.buildDisplay());
+        //System.out.println(this.map.buildDisplay());
     }
 
     public void run() {
@@ -24,7 +24,7 @@ public class SimulationEngine implements IEngine {
         feedAnimals();
         copulation();
         generatePlants();
-        System.out.println(this.map.buildDisplay());
+        //System.out.println(this.map.buildDisplay());
     }
 
     public void startAnimals() {
@@ -149,4 +149,6 @@ public class SimulationEngine implements IEngine {
     public boolean getSimulationStatus() {return this.simulationStatus;}
 
     public WorldMap getMap() { return this.map; }
+
+    public void setSimulationStatus(boolean status){this.simulationStatus = status;}
 }

@@ -8,14 +8,13 @@ import java.util.stream.Collectors;
 public class SimulationEngine implements IEngine {
 
     WorldMap map;
-    boolean simulationStatus = true;
-    long interval = 400;
+    boolean simulationStatus = false;
+    long interval = 200;
 
     public SimulationEngine() {
         this.map = new WorldMap();
         startAnimals();
         generatePlants();
-        //System.out.println(this.map.buildDisplay());
     }
 
     public void run() {
@@ -24,7 +23,6 @@ public class SimulationEngine implements IEngine {
         feedAnimals();
         copulation();
         generatePlants();
-        //System.out.println(this.map.buildDisplay());
     }
 
     public void startAnimals() {

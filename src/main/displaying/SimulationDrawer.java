@@ -28,7 +28,7 @@ public class SimulationDrawer implements SimulationDrawerInterface {
     SimulationDrawer(){
         this.grid = new GridPane();
         this.simulationEngine = new SimulationEngine();
-        this.pausePlay = new Button("PAUSE");
+        this.pausePlay = new Button("play");
         this.layout = new BorderPane();
         this.pausePlay.setOnAction(e -> this.simulationEngine.setSimulationStatus(!this.simulationEngine.getSimulationStatus()));
         HBox down = new HBox(this.pausePlay);

@@ -9,7 +9,7 @@ public class SimulationEngine implements IEngine {
 
     WorldMap map;
     boolean simulationStatus = false;
-    long interval = 200;
+    long interval = 250;
     GlobalVariables globalVariables = new GlobalVariables();
 
     public SimulationEngine() {
@@ -53,7 +53,7 @@ public class SimulationEngine implements IEngine {
 
     public int getAverageAnimalEnergy(){
         List<Animal> a = List.copyOf(getAnimals());
-        return a.stream().mapToInt(Animal::getEnergyLevel).sum()/ a.size();
+        return a.size() != 0 ? a.stream().mapToInt(Animal::getEnergyLevel).sum()/ a.size() : 0;
     }
 
     public Set<Plant> getPlants() {

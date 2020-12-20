@@ -130,7 +130,7 @@ public class WorldMap extends Jungle implements IMap, MapObserver {
                     y = rand.nextInt(GlobalVariables.d.getY());
                 }
                 case 3 -> {
-                    x = rand.nextInt(GlobalVariables.width - GlobalVariables.u.getX())
+                    x = rand.nextInt(GlobalVariables.width - GlobalVariables.u.getX() - 1)
                             + GlobalVariables.u.getX() + 1;
                     y = rand.nextInt(GlobalVariables.height);
                 }

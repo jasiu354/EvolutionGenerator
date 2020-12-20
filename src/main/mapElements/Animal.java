@@ -63,13 +63,12 @@ public class Animal extends MapElement{
 
     MoveDirection turn(){
         Random rand = new Random();
-        int x = rand.nextInt(32), i = 0;
+        int x = rand.nextInt(32), i = 0;//[1,1,1,1,7,7,7,7]
         while(x > 0 && i < 7){
             x -= this.geno.genes[i++];
         }
         return MoveDirection.values()[i];
     }
-
     public void die(){
         if(this.energyLevel <= 0) {
             this.energyLevel = 0;

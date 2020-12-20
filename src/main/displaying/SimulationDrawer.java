@@ -69,7 +69,7 @@ public class SimulationDrawer implements SimulationDrawerInterface {
         this.lifeLength = new Label("0");
         this.amountOfChildren = new Label("0");
         statisticBox.getChildren().addAll(new Label("Day"), this.day,
-                new Label("Amount of plats "),this.plants
+                new Label("Amount of plants "),this.plants
                 , new Label("Amount of animals "), this.animals,
                 new Label("Dominant gene"), this.gene,
                 new Label("Average energy level"), this.energyLevel,

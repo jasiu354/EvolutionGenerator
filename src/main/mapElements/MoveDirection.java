@@ -5,14 +5,6 @@ import java.util.Random;
 public enum MoveDirection {
     NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH, SOUTHWEST,WEST,NORTHWEST;
 
-    public MoveDirection next() {
-        return (MoveDirection.values()[(this.ordinal()+1)%8]);
-    }
-
-    public MoveDirection previous() {
-        return (MoveDirection.values()[(this.ordinal()-1)%8]);
-    }
-
     public static MoveDirection random(){ return MoveDirection.values()[ new Random().nextInt(8)];}
 
     public Vector2d toUnitVector() {
@@ -31,14 +23,14 @@ public enum MoveDirection {
     @Override
     public String toString() {
         return switch (this) {
-            case NORTHWEST -> "Północny zachód";
-            case NORTH -> "Północ";
-            case SOUTHEAST -> "Południowy wschód";
-            case SOUTH -> "Południe";
-            case SOUTHWEST -> "Południowy zachód";
-            case WEST -> "Zachód";
-            case EAST -> "Wschód";
-            case NORTHEAST -> "Północny wschód";
+            case NORTH ->  "\u21d1";
+            case NORTHEAST ->  "\u21d7";
+            case EAST -> "\u21d2";
+            case SOUTHEAST ->  "\u21d8";
+            case SOUTH ->  "\u21d3";
+            case SOUTHWEST ->  "\u21d9";
+            case WEST ->  "\u21d0";
+            case NORTHWEST ->  "\u21d6";
         };
     }
 

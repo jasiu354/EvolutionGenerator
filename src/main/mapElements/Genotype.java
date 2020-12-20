@@ -1,5 +1,6 @@
 package mapElements;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Genotype {
@@ -14,9 +15,7 @@ public class Genotype {
         return this.genes;
     }
 
-    Genotype pickGeno(Animal dad, Animal mom){
-        Genotype dadsGeno = dad.getGeno();
-        Genotype momsGeno = mom.getGeno();
+    void pickGeno(Animal dad, Animal mom){
         for(int i = 0; i <24; i++){
             int x = new Random().nextInt(32), j = 0;
             while(x > 0 && j < 7){
@@ -24,7 +23,6 @@ public class Genotype {
             }
             this.genes[j]++;
         }
-        return new Genotype();
     }
 
     public void randomGeno(){

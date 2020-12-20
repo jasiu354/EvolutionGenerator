@@ -10,6 +10,7 @@ public class SimulationEngine implements IEngine {
     WorldMap map;
     boolean simulationStatus = false;
     long interval = 200;
+    GlobalVariables globalVariables = new GlobalVariables();
 
     public SimulationEngine() {
         this.map = new WorldMap();
@@ -23,13 +24,18 @@ public class SimulationEngine implements IEngine {
         feedAnimals();
         copulation();
         generatePlants();
+        this.globalVariables.dayCounter++;
     }
 
     public void startAnimals() {
         for (int i = 0; i < GlobalVariables.startAnimals; i++) {
-            Animal startingAnimal = new Animal();
+            Animal startingAnimal = new Animal(this.map.findStartingPos(), ++this.globalVariables.animalCounter);
+            startingAnimal.setSpawnDay(globalVariables.dayCounter);
             startingAnimal.register(this.map);
             this.map.place(startingAnimal);
+            this.globalVariables.livingAnimalCounter++;
+            for(int j = 0; j < 8; j++)
+                this.globalVariables.genoType[j] += startingAnimal.getGenes()[j];
         }
     }
 
@@ -45,6 +51,11 @@ public class SimulationEngine implements IEngine {
         return animals;
     }
 
+    public int getAverageAnimalEnergy(){
+        List<Animal> a = List.copyOf(getAnimals());
+        return a.stream().mapToInt(Animal::getEnergyLevel).sum()/ a.size();
+    }
+
     public Set<Plant> getPlants() {
         Set<Plant> plants = new HashSet<>();
         for (Map.Entry<Vector2d, Set<MapElement>> entry : this.map.getElements().entrySet()) {
@@ -57,23 +68,20 @@ public class SimulationEngine implements IEngine {
     }
 
     public void generatePlants() {
-        Plant in = new Plant(this.map), out = new Plant(this.map);
-        boolean i = true, o = true;
-        in.pickPlaceInJungle();
-        out.pickPlaceOutsideJungle();
-        for (Plant p : getPlants()) {
-            if (p.getPosition().equals(in.getPosition()))
-                i = false;
-            if (p.getPosition().equals(out.getPosition()))
-                o = false;
+        Vector2d in = getMap().pickPlaceInJungle(), out = getMap().pickPlaceOutsideJungle();
+        if(in != null){
+            Plant p = new Plant(this.map);
+            p.setPosition(in);
+            p.register(this.map);
+            this.map.place(p);
+            this.globalVariables.plantCounter++;
         }
-        if (i) {
-            in.register(this.map);
-            this.map.place(in);
-        }
-        if (o) {
-            out.register(this.map);
-            this.map.place(out);
+        if(out != null){
+            Plant p = new Plant(this.map);
+            p.setPosition(out);
+            p.register(this.map);
+            this.map.place(p);
+            this.globalVariables.plantCounter++;
         }
     }
 
@@ -92,12 +100,17 @@ public class SimulationEngine implements IEngine {
                 Animal mom = getStrongestAnimal(animals);
                 if (mom.canCopulate() && dad.canCopulate()) {
                     Vector2d childPos = this.map.findPosForChild(dad.getPosition());
-                    Animal kiddo = new Animal(dad, mom, childPos);
+                    Animal kiddo = new Animal(dad, mom, childPos, ++this.globalVariables.animalCounter);
+                    kiddo.setSpawnDay(globalVariables.dayCounter);
                     kiddo.register(this.map);
                     kids.add(kiddo);
                     mom.increaseEnergyLevel(-mom.getEnergyLevel() / 4);
                     dad.increaseEnergyLevel(-dad.getEnergyLevel() / 4);
-                    System.out.println("Copulation done");
+                    mom.addChild(kiddo);
+                    dad.addChild(kiddo);
+                    this.globalVariables.livingAnimalCounter++;
+                    for(int i = 0; i < 8; i++)
+                        this.globalVariables.genoType[i] += kiddo.getGenes()[i];
                 }
             }
         }
@@ -115,6 +128,7 @@ public class SimulationEngine implements IEngine {
                 luckyAnimals.forEach(a -> a.increaseEnergyLevel((GlobalVariables.plantEnergy / animalsOnPos.size())));
                 p.remove();
                 p.unregister(this.map);
+                this.globalVariables.plantCounter--;
             }
         }
     }
@@ -137,8 +151,14 @@ public class SimulationEngine implements IEngine {
     public void removeDeadAnimals() {
         getAnimals().forEach(a -> {
             a.die();
-            if (a.getEnergyLevel() == 0)
+            if (a.getEnergyLevel() == 0) {
+                a.setDeathDay(globalVariables.dayCounter);
+                globalVariables.averageLifeLength +=
+                ((double)(a.getDeathDay() - a.getSpawnDay()) - globalVariables.averageLifeLength)/
+                (double)(globalVariables.animalCounter - globalVariables.livingAnimalCounter + 1);
+                this.globalVariables.livingAnimalCounter--;
                 a.unregister(this.map);
+            }
         });
     }
 
@@ -149,4 +169,18 @@ public class SimulationEngine implements IEngine {
     public WorldMap getMap() { return this.map; }
 
     public void setSimulationStatus(boolean status){this.simulationStatus = status;}
+
+    public GlobalVariables getGlobalVariables() { return globalVariables; }
+
+    public int animalsChildren(){ return getAnimals().stream().mapToInt(o -> o.getChildren().size()).sum();}
+
+    public int getMaxGene(){
+        int max = 0;
+        for(int i = 0; i < 8; i++) {
+            if (this.globalVariables.genoType[i] > this.globalVariables.genoType[max])
+                max = i;
+        }
+        return max;
+    }
+
 }

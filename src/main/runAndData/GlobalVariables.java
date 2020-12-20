@@ -4,9 +4,11 @@ import mapElements.Vector2d;
 
 public class GlobalVariables {
 
-    static public int animalCounter = 0, width, height, startEnergy,
+    public static int width, height, startEnergy,
             moveEnergy, plantEnergy, startAnimals, sceneHeight = 600, sceneWidth = 800;
-    static public double jungleRatio;
+    public static double jungleRatio;
     public static Vector2d d,u;
-
+    public int animalCounter = 0, livingAnimalCounter = 0, plantCounter = 0,dayCounter = 1;
+    public double averageLifeLength = 0;
+    public int[] genoType = new int[8];
 }

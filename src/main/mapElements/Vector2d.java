@@ -43,11 +43,11 @@ import java.util.*;
             return new Vector2d(this.x - other.x, this.y - other.y);
         }
 
-        int getX(){
+        public int getX(){
             return this.x;
         }
 
-        int getY(){
+        public int getY(){
             return this.y;
         }
 

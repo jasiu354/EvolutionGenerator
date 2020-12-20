@@ -33,5 +33,4 @@ public enum MoveDirection {
             case NORTHWEST ->  "\u21d6";
         };
     }
-
 }

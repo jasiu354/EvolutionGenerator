@@ -61,6 +61,7 @@ public class WorldMap extends Jungle implements IMap, MapObserver {
         return v.add(MoveDirection.values()[x].toUnitVector());
     }
 
+
     public Vector2d findStartingPos(){
         Vector2d pos = new Vector2d(new Random().nextInt(GlobalVariables.width),new Random().nextInt(GlobalVariables.height));
         if(occupied(pos)){

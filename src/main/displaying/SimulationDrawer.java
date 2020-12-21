@@ -48,7 +48,7 @@ public class SimulationDrawer implements SimulationDrawerInterface {
         this.getStats.setOnAction(e -> {
             try {
                 List<String> lines = Arrays.asList("Day", this.day.getText(),
-                        "Amount of plats ", this.plants.getText(),
+                        "Amount of plants ", this.plants.getText(),
                         "Dominant gene", this.gene.getText(),
                         "Average energy level", this.energyLevel.getText(),
                         "Average life length", this.lifeLength.getText(),
@@ -131,7 +131,6 @@ public class SimulationDrawer implements SimulationDrawerInterface {
                 }
                 this.grid.add(r, i + 1, j + 1);
             }
-
         }
         this.grid.setHgap((GlobalVariables.sceneHeight*0.02)/(h+3));
         this.grid.setVgap((GlobalVariables.sceneWidth*0.02)/(w+3));
